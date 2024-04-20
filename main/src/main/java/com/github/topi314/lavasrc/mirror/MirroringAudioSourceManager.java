@@ -44,6 +44,8 @@ public abstract class MirroringAudioSourceManager extends ExtendedAudioSourceMan
 		this.httpInterfaceManager.configureBuilder(configurator);
 	}
 
+	public HttpInterfaceManager getHttpInterfaceManager() { return this.httpInterfaceManager; }
+
 	public HttpInterface getHttpInterface() {
 		return this.httpInterfaceManager.getInterface();
 	}
