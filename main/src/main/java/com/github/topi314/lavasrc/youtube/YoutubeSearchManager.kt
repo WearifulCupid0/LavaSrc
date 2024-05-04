@@ -8,8 +8,6 @@ import com.github.topi314.lavasearch.result.BasicAudioText
 import com.github.topi314.lavasrc.ExtendedAudioPlaylist
 import com.github.topi314.lavasrc.youtube.innertube.MusicResponsiveListItemRenderer
 import com.github.topi314.lavasrc.youtube.innertube.requestMusicAutoComplete
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack
 import com.sedmelluq.discord.lavaplayer.tools.io.HttpClientTools
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo
@@ -30,7 +28,7 @@ private fun MusicResponsiveListItemRenderer.NavigationEndpoint.toUrl() = when {
 }
 
 class YoutubeSearchManager(
-    private val sourceManager: () -> YoutubeAudioSourceManager
+    private val trackFactory: () -> YoutubeTrackFactory
 ) : AudioSearchManager {
     companion object {
         const val SEARCH_PREFIX = "ytsearch:"
@@ -84,7 +82,7 @@ class YoutubeSearchManager(
                             thumbnail,
                             null
                         )
-                        YoutubeAudioTrack(info, sourceManager())
+                        trackFactory().createTrack(info)
                     } else if (item.navigationEndpoint.browseEndpoint != null) {
                         val type =
                             item.navigationEndpoint.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig.pageType
